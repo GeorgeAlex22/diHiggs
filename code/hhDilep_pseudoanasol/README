@@ -1,0 +1,12 @@
+***************************************************
+***************************************************
+
+- source ../bin/setup.csh
+
+- edit GNUmakefile and replace a/alexandris with your login
+  This is the Makefile
+
+- gmake clean 
+- gmake main.x
+- ./main.x
+

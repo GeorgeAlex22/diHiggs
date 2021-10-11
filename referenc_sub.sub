@@ -1,0 +1,26 @@
+#universe = vanilla
+
+Executable =  /eos/user/a/alexandg/public/EOS.diHiggs/cfgFiles/jobs/pptohh/run_01.lhe.hep.root.job
+
+getenv                  = True
+
+#notification            = always
+
+Output    = /eos/user/a/alexandg/public/EOS.diHiggs/cfgFiles/output/pptohh/run_01.lhe.hep.root.out
+
+Error     = /eos/user/a/alexandg/public/EOS.diHiggs/cfgFiles/error/pptohh/run_01.lhe.hep.root.err
+
+Log       = /eos/user/a/alexandg/public/EOS.diHiggs/cfgFiles/log/pptohh/run_01.lhe.hep.root.log
+
+#notify_user = georgios.alexandris@cern.ch
+
+should_transfer_files = YES
+
+when_to_transfer_output = ON_EXIT
+
+x509userproxy = $ENV(X509_USER_PROXY)
+
+
++JobFlavour             = "tomorrow"
+
+queue
