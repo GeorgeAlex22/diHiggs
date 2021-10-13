@@ -530,6 +530,8 @@ int main() {
         double WStarmass0 = 0.;
         double WStarmassMAX = 80.;
         double WStarmassSTEP = 1.;
+        double momentumSTEP = 1.;
+        double momentumMAX = 250.;
         for(WStarmass = WStarmass0; WStarmass < WStarmassMAX; WStarmass += WStarmassSTEP)
         {
             // cout << WStarmass << endl;
@@ -537,9 +539,9 @@ int main() {
             // initialize
             n1x = n1[0];
             n1y = n1[1];
-            for(n1x = -100.; n1x<101.; n1x++)
+            for(n1x = -momentumMAX; n1x < momentumMAX+1; n1x++)
             {
-                for(n1y = -100; n1y<101.; n1y++)
+                for(n1y = -momentumMAX; n1y < momentumMAX+1; n1y++)
                 {
                     if(printLoopInfo) {cout << "M(W*) = " << WStarmass << "\tp1x = " << n1x << "\tp1y = " << n1y << endl;}
                     double n2x = MET_x - n1x;
