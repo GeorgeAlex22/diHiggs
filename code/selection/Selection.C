@@ -487,7 +487,8 @@ void Selection()
   int nneutrinos = genNeutrinos.size();
 
   //  if (generatedInfo && (ngeneratedBquarks>=2) && (ngeneratedLeptons ==2) && (nneutrinos == 2) && Mbb_gen > 95 && Mbb_gen < 140 && Mll_gen < 65 && pow(genMETx*genMETx + genMETy*genMETy, 0.5) > 30)
-  if (generatedInfo && (ngeneratedBquarks>=2) && (ngeneratedLeptons ==2) && Mbb_gen > 95 && Mbb_gen < 140 && Mll_gen < 65 && pow(genMETx*genMETx + genMETy*genMETy, 0.5) > 30)
+  // if (generatedInfo && (ngeneratedBquarks>=2) && (ngeneratedLeptons ==2) && Mbb_gen > 95 && Mbb_gen < 140 && Mll_gen < 65 && pow(genMETx*genMETx + genMETy*genMETy, 0.5) > 30)
+  if (generatedInfo && (ngeneratedBquarks>=2) && (ngeneratedLeptons ==2) && pow(genMETx*genMETx + genMETy*genMETy, 0.5) > 30)
    {
       if (printInfo){ cout << endl; cout << "------------  event " << entry << " -------------- " << endl; cout << endl;}
 
@@ -602,7 +603,8 @@ Double_t Mjj = (mostEnergeticJet.P4()+secEnergeticJet.P4()).M();
 Double_t Mll = (mostEnergeticLepton.P4()+secEnergeticLepton.P4()).M();
 
     // if (!(generatedInfo) && (njets >= 2) && (nleptons >=2) && (mostEnergeticJet.P4().Pt()>30) && (secEnergeticJet.P4().Pt()>30) && (mostEnergeticLepton.P4().Pt()>30)  && (secEnergeticLepton.P4().Pt()>30)&& missingEnergyX*missingEnergyX + missingEnergyY*missingEnergyY > 1)
-    if (!(generatedInfo) && (njets >= 2) && (nleptons ==2) && Mjj > 95 && Mjj < 140 && Mll < 65 && pow(missingEnergyX*missingEnergyX + missingEnergyY*missingEnergyY, 0.5) > 30)
+    // if (!(generatedInfo) && (njets >= 2) && (nleptons ==2) && Mjj > 95 && Mjj < 140 && Mll < 65 && pow(missingEnergyX*missingEnergyX + missingEnergyY*missingEnergyY, 0.5) > 30)
+    if (!(generatedInfo) && (njets >= 2) && (nleptons ==2) && pow(missingEnergyX*missingEnergyX + missingEnergyY*missingEnergyY, 0.5) > 30)
     {
 
       if (printInfo){ cout << endl; cout << "------------  event " << entry << " -------------- " << endl; cout << endl;}

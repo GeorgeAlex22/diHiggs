@@ -45,7 +45,8 @@ If you want to study a certain _PHYSICS\_PROCESS_ = (_pptohh_, _ttbar1_, _pptooh
 source create_jobs.csh pptohhsm
 source submit_jobs.csh pptohhsm
 ```
-if _PHYSICS\_PROCESS_ = _pptohhsm_. Else, change it accordingly.
+if _PHYSICS\_PROCESS_ = _pptohhsm_. Else, change it accordingly.  
+A full list of the available _PHYSICS\_PROCESS_ is in [physics_processes.txt][physics_processes.txt]
 
 After the jobs finish running, use 
 ```
@@ -65,4 +66,5 @@ to create histograms for the process _pptohhsm_.
 [lhapdf]:https://lhapdf.hepforge.org/
 [delphes]:https://cp3.irmp.ucl.ac.be/projects/delphes
 [condor]:https://htcondor.readthedocs.io/en/latest/
+[physics_processes.txt]:https://github.com/GeorgeAlex22/diHiggs/blob/main/create_jobs.csh
 

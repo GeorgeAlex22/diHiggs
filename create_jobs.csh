@@ -47,13 +47,13 @@ foreach INPUT ( ${INPUT_LIST} )
     setenv jobfile ${JOB_INPUT_PATH}/${INPUT}.job
     setenv inputfile ${INPUT_PATH}/${INPUT}
     setenv outputfile "${EOS_PATH}/rootFiles/${PHYSICS_PROCESS}/trees/solved_${INPUT}"
-    sed 's@INPUTFILE@'"${inputfile}"'@g' job_template >  tmp_job_template
+    sed 's@INPUTFILE@'"${inputfile}"'@g' templates/job_template >  tmp_job_template
     sed 's@OUTPUTFILE@'"${outputfile}"'@g' tmp_job_template > ${jobfile}
     echo "CREATED ${jobfile} \n\tFROM ${INPUT_PATH}/${INPUT}\n"
 
     setenv subfile ${SUBMIT_INPUT_PATH}/${INPUT}.sub
 
-    sed 's@INPUTFILE@'"${INPUT}"'@g' sub_template > tmp_sub_template
+    sed 's@INPUTFILE@'"${INPUT}"'@g' templates/sub_template > tmp_sub_template
     sed 's@PHYSICSPROCESS@'"${PHYSICS_PROCESS}"'@g' tmp_sub_template > ${subfile}
     echo "CREATED ${subfile} \n\tFOR ${jobfile}\n"
     
