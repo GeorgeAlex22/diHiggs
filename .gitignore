@@ -1,3 +1,5 @@
 *.root
 *.code-workspace
 main.x
+cfgFiles
+alexandg.cc

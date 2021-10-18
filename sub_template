@@ -1,26 +1,49 @@
 #universe = vanilla
 
-Executable =  /eos/user/a/alexandg/public/EOS.diHiggs/cfgFiles/jobs/pptohh/run_01.lhe.hep.root.job
+#Executable = /afs/cern.ch/user/a/alexandg/diHiggs/cfgFiles/jobs/pptohh/INPUTFILE.job
+#Executable = /afs/cern.ch/user/a/alexandg/diHiggs/cfgFiles/jobs/ttbar1/INPUTFILE.job
+Executable = /afs/cern.ch/user/a/alexandg/diHiggs/cfgFiles/jobs/PHYSICSPROCESS/INPUTFILE.job
 
 getenv                  = True
 
 #notification            = always
 
-Output    = /eos/user/a/alexandg/public/EOS.diHiggs/cfgFiles/output/pptohh/run_01.lhe.hep.root.out
+#Output = /afs/cern.ch/user/a/alexandg/diHiggs/cfgFiles/output/pptohh/INPUTFILE.out
+Output = /afs/cern.ch/user/a/alexandg/diHiggs/cfgFiles/jobs/PHYSICSPROCESS/INPUTFILE.job
 
-Error     = /eos/user/a/alexandg/public/EOS.diHiggs/cfgFiles/error/pptohh/run_01.lhe.hep.root.err
+#Error = /afs/cern.ch/user/a/alexandg/diHiggs/cfgFiles/error/pptohh/INPUTFILE.err
+Error = /afs/cern.ch/user/a/alexandg/diHiggs/cfgFiles/jobs/PHYSICSPROCESS/INPUTFILE.job
 
-Log       = /eos/user/a/alexandg/public/EOS.diHiggs/cfgFiles/log/pptohh/run_01.lhe.hep.root.log
+#Log = /afs/cern.ch/user/a/alexandg/diHiggs/cfgFiles/log/pptohh/INPUTFILE.log
+Log = /afs/cern.ch/user/a/alexandg/diHiggs/cfgFiles/jobs/PHYSICSPROCESS/INPUTFILE.job
 
 #notify_user = georgios.alexandris@cern.ch
 
-should_transfer_files = YES
+#should_transfer_files = YES
 
-when_to_transfer_output = ON_EXIT
+#when_to_transfer_output = ON_EXIT
 
-x509userproxy = $ENV(X509_USER_PROXY)
+#x509userproxy = $ENV(X509_USER_PROXY)
 
+# 20 minutes
+#+JobFlavour = "espresso"    
 
-+JobFlavour             = "tomorrow"
+# 1 hour
+#+JobFlavour = "microcentury"  
+
+# 2 hours
+#+JobFlavour = "longlunch" 
+   
+# 8 hours
+#+JobFlavour = "workday"
+      
+# 1 day
++JobFlavour = "tomorrow" 
+    
+# 3 days
+#+JobFlavour = "testmatch" 
+
+# 1 week
+#+JobFlavour = "nextweek"  
 
 queue

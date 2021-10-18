@@ -1,16 +1,19 @@
 #universe = vanilla
 
-Executable =  /eos/user/a/alexandg/public/EOS.diHiggs/cfgFiles/jobs/pptohh/run_01.lhe.hep.root.job
-
+#Executable =  /eos/user/a/alexandg/public/EOS.diHiggs/cfgFiles/jobs/pptohh/run_01.lhe.hep.root.job
+Executable = reference_job.job
 getenv                  = True
 
 #notification            = always
 
-Output    = /eos/user/a/alexandg/public/EOS.diHiggs/cfgFiles/output/pptohh/run_01.lhe.hep.root.out
+#Output    = /eos/user/a/alexandg/public/EOS.diHiggs/cfgFiles/output/pptohh/run_01.lhe.hep.root.out
+Output = ref_job.out
 
-Error     = /eos/user/a/alexandg/public/EOS.diHiggs/cfgFiles/error/pptohh/run_01.lhe.hep.root.err
+#Error     = /eos/user/a/alexandg/public/EOS.diHiggs/cfgFiles/error/pptohh/run_01.lhe.hep.root.err
+Error = ref_job.err
 
-Log       = /eos/user/a/alexandg/public/EOS.diHiggs/cfgFiles/log/pptohh/run_01.lhe.hep.root.log
+#Log       = /eos/user/a/alexandg/public/EOS.diHiggs/cfgFiles/log/pptohh/run_01.lhe.hep.root.log
+Log = ref_job.log
 
 #notify_user = georgios.alexandris@cern.ch
 
@@ -18,9 +21,9 @@ should_transfer_files = YES
 
 when_to_transfer_output = ON_EXIT
 
-x509userproxy = $ENV(X509_USER_PROXY)
+#x509userproxy = $ENV(X509_USER_PROXY)
 
-
+#+JobFlavour              = "espresso"
 +JobFlavour             = "tomorrow"
 
 queue

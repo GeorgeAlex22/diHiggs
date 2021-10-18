@@ -82,8 +82,8 @@ bool sortElectrons(const Electron& e1, const Electron& e2)                      
 bool sortMuons(const Muon&     m1, const Muon&     m2)                                { return m1.PT > m2.PT;}
 
 
-bool generatedInfo  = !false;
-bool printInfo      = true;
+bool generatedInfo  = false;
+bool printInfo      = !true;
 bool debug          = !true;
 bool signal_flag    = true;
 int  selectedEvents = 0;

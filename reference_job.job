@@ -1,13 +1,13 @@
 #!/usr/bin/csh
 
 # This if is only for local so that the rest of the script remains the same both for HTCondor and locally.
-setenv LOCAL true
-if ($LOCAL == true) then
-    cd 
-    rm -rf local_scratch
-    mkdir local_scratch
-    setenv _CONDOR_SCRATCH_DIR ${HOME}/local_scratch
-endif
+# setenv LOCAL true
+# if ($LOCAL == true) then
+#     cd 
+#     rm -rf local_scratch
+#     mkdir local_scratch
+#     setenv _CONDOR_SCRATCH_DIR ${HOME}/local_scratch
+# endif
 
 setenv DIHIGGS_PATH ${HOME}/diHiggs
 
@@ -19,20 +19,23 @@ echo "\n----------------------------------------------------"
 ls 
 echo "----------------------------------------------------\n"
 
-cp /eos/cms/store/group/phys_b2g/giorgos/pheno/rootFiles/pptohh/trees/run_02.lhe.hep.root ./code/selection/selection_input.root
+# cp /afs/cern.ch/user/a/alexandg/Delphes-3.4.0/tree_pptohh_GEN.root ./code/selection/selection_input.root
 
-echo "..Copying /eos/cms/store/group/phys_b2g/giorgos/pheno/rootFiles/pptohh/trees/run_02.lhe.hep.root -> ./code/selection/selection_input.root"
+# echo "..Copying /afs/user/a/alexandg/Delphes-3.4.0/tree_pptohh_GEN.root -> ./code/selection/selection_input.root"
+# echo "..Copying /eos/cms/store/group/phys_b2g/giorgos/pheno/rootFiles/pptohh/trees/run_02.lhe.hep.root -> ./code/selection/selection_input.root"
 
 source code/setup.csh
 
-cd code/selection
-root -l -b Selection.C
+# cd code/selection
+# root -l -b Selection.C
 # echo "**Running | root -l -b Selection.C | in my imagination..."
 cd  ${_CONDOR_SCRATCH_DIR}
 
+cp /afs/cern.ch/user/a/alexandg/Delphes-3.4.0/tree_pptohh_GEN.root ./code/hhDilep_pseudoanasol/data/pdf_input.root
 
-cp ./code/selection/selection_output.root ./code/hhDilep_pseudoanasol/data/pdf_input.root
-echo "..Copying ./code/selection/selection_output.root -> ./code/hhDilep_pseudoanasol/data/pdf_input.root"
+echo "..Copying /afs/user/a/alexandg/Delphes-3.4.0/tree_pptohh_GEN.root -> ./code/hhDilep_pseudoanasol/data/pdf_input.root"
+# cp ./code/selection/selection_output.root ./code/hhDilep_pseudoanasol/data/pdf_input.root
+# echo "..Copying ./code/selection/selection_output.root -> ./code/hhDilep_pseudoanasol/data/pdf_input.root"
 
 cd ./code/hhDilep_pseudoanasol
 echo "PWD = ${PWD}"
@@ -51,16 +54,18 @@ gmake main.x
 # cd ..
 # echo "exiting directory ./${_CONDOR_SCRATCH_DIR}"
 
-cp ./data/pdf_output.root /eos/user/a/alexandg/public/EOS.diHiggs/rootFiles/pptohh/trees/solved_run_02.lhe.hep.root
-echo "..Copying ./data/pdf_output.root -> /eos/user/a/alexandg/public/EOS.diHiggs/rootFiles/pptohh/trees/solved_run_02.lhe.hep.root"
+# cp ./data/pdf_output.root /eos/user/a/alexandg/public/EOS.diHiggs/rootFiles/pptohh/trees/solved_run_02.lhe.hep.root
+cp ./data/pdf_output.root /afs/cern.ch/user/a/alexandg/diHiggs/code/tree_1970.root
+echo "..Copying ./data/pdf_output.root -> /afs/user/a/alexandg/diHiggs/code/tree_1970.root"
+# echo "..Copying ./data/pdf_output.root -> /eos/user/a/alexandg/public/EOS.diHiggs/rootFiles/pptohh/trees/solved_run_02.lhe.hep.root"
 
 cd ${_CONDOR_SCRATCH_DIR}
 echo "PWD = ${PWD}"
 
-if ($LOCAL == true) then
-    cd ..
-    echo  "Deleting scratch space.."
-    rm -r local_scratch
-    cd 
-    cd diHiggs
-endif
+# if ($LOCAL == true) then
+#     cd ..
+#     echo  "Deleting scratch space.."
+#     rm -r local_scratch
+#     cd 
+#     cd diHiggs
+# endif

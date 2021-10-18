@@ -1,6 +1,7 @@
 #!/usr/bin/csh
 
 setenv DIHIGGS_PATH ${HOME}/diHiggs
+#setenv EOS_MGM_URL root://eosusers.cern.ch
 
 cp -r ${DIHIGGS_PATH}/. ${_CONDOR_SCRATCH_DIR}
 cd ${_CONDOR_SCRATCH_DIR}
@@ -34,7 +35,6 @@ cp ./data/pdf_output.root OUTPUTFILE
 
 
 echo "..Copying ./data/pdf_output.root -> OUTPUTFILE"
-
 
 
 cd ${_CONDOR_SCRATCH_DIR}

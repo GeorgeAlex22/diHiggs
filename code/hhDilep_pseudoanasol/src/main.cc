@@ -407,8 +407,8 @@ int main() {
 
     Double_t result_WStarmass;
 
-    if(allEntries != 0)
-    {    
+    // if(allEntries != 0)
+    // {    
         treeResults = new TFile("data/pdf_output.root", "RECREATE");       
         t2  = new TTree("t1","RECREATE");
 
@@ -447,7 +447,7 @@ int main() {
         t2->Branch("neutrino2_pz_sol", &neutrino2_pz_sol, "neutrino2_pz_sol/D");
         t2->Branch("neutrino2_E_sol" , &neutrino2_E_sol , "neutrino2_E_sol/D" );            
         t2->Branch("WStarmass" , &result_WStarmass , "WStarmass/D" );
-    }
+    // }
 
     int entry;
     int solvable_events = 0;
@@ -628,13 +628,13 @@ int main() {
 
     } //Event Loop
 
-    if(allEntries != 0)
-    {
+    // if(allEntries != 0)
+    // {
         t2->Write();
         treeResults->Close();
         cout << "** Input contains " << allEntries << " events from which " << solvable_events << " were solvable" <<  endl;
 
-    }
+    // }
 
     // f->Close();
 
