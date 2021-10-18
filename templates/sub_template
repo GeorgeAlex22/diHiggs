@@ -1,21 +1,16 @@
 #universe = vanilla
 
-#Executable = /afs/cern.ch/user/a/alexandg/diHiggs/cfgFiles/jobs/pptohh/INPUTFILE.job
-#Executable = /afs/cern.ch/user/a/alexandg/diHiggs/cfgFiles/jobs/ttbar1/INPUTFILE.job
 Executable = /afs/cern.ch/user/a/alexandg/diHiggs/cfgFiles/jobs/PHYSICSPROCESS/INPUTFILE.job
 
 getenv                  = True
 
 #notification            = always
 
-#Output = /afs/cern.ch/user/a/alexandg/diHiggs/cfgFiles/output/pptohh/INPUTFILE.out
-Output = /afs/cern.ch/user/a/alexandg/diHiggs/cfgFiles/jobs/PHYSICSPROCESS/INPUTFILE.job
+Output = /afs/cern.ch/user/a/alexandg/diHiggs/cfgFiles/output/PHYSICSPROCESS/INPUTFILE.out
 
-#Error = /afs/cern.ch/user/a/alexandg/diHiggs/cfgFiles/error/pptohh/INPUTFILE.err
-Error = /afs/cern.ch/user/a/alexandg/diHiggs/cfgFiles/jobs/PHYSICSPROCESS/INPUTFILE.job
+Error = /afs/cern.ch/user/a/alexandg/diHiggs/cfgFiles/error/PHYSICSPROCESS/INPUTFILE.err
 
-#Log = /afs/cern.ch/user/a/alexandg/diHiggs/cfgFiles/log/pptohh/INPUTFILE.log
-Log = /afs/cern.ch/user/a/alexandg/diHiggs/cfgFiles/jobs/PHYSICSPROCESS/INPUTFILE.job
+Log = /afs/cern.ch/user/a/alexandg/diHiggs/cfgFiles/log/PHYSICSPROCESS/INPUTFILE.log
 
 #notify_user = georgios.alexandris@cern.ch
 
