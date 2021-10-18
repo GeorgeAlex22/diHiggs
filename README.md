@@ -1,14 +1,14 @@
 ## Dependencies
 * ### GCC
-    We will be using [GCC][gcc]-4.9.1 for this project[^1].
-    If you are on _lxplus_ you can get it by sourcing
+    We will be using [GCC][gcc]-4.9.1 for this project[^1].  
+    If you are on _lxplus_, you can get it by sourcing
     ```
     source /cvmfs/sft.cern.ch/lcg/external/gcc/4.9.1/x86_64-slc6-gcc48-opt/setup.csh
     ```
 
 * ### ROOT
     We will be using [ROOT][root]-6.06/06 for this project.  
-    If you are on _lxplus_ you can get it by sourcing
+    If you are on _lxplus_, you can get it by sourcing
     ```
     source source /cvmfs/sft.cern.ch/lcg/releases/ROOT/6.06.06-5e975/x86_64-slc6-gcc49-opt/bin/thisroot.csh
     ```
