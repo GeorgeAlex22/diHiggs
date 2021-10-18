@@ -58,7 +58,8 @@ to create histograms for the process _pptohhsm_.
 
 
 
-[^1]:Except for when we are compiling LHAPDF, where we will use 4.7, but this process is essentially outside the project.
+[^1]:Except for when we are compiling LHAPDF, where we will use 4.7, but this process is essentially outside the project.  
+
 [gcc]:https://gcc.gnu.org/
 [root]:https://root.cern/
 [lhapdf]:https://lhapdf.hepforge.org/
