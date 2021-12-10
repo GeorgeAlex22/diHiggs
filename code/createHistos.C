@@ -17,6 +17,8 @@ double Energy2(double px, double py, double pz, double m)
 //--------------------------------------------------------//
 
 
+const bool generatedInfo = !false;
+
 void createHistos(const char* physics_process)
 {
     TChain* chain = new TChain("t1");
@@ -31,7 +33,7 @@ void createHistos(const char* physics_process)
     TFile* tmp_file;
     TTree* tmp_tree;
     Long64_t allEntries;
-
+    int i=0;
     if ((dir = opendir (eos_path)) != NULL) 
     {
         /* print all the files and directories within directory */
@@ -45,7 +47,13 @@ void createHistos(const char* physics_process)
                 tmp_file = new TFile(filename);
                 tmp_tree = (TTree*) tmp_file->Get("t1");
                 allEntries = tmp_tree->GetEntries();
-                if(allEntries > 0) {chain->Add(filename);}   
+                if(allEntries > 0) 
+                {
+                    cout << "**Adding " << filename << " to chain.." << endl;
+                    chain->Add(filename);
+                    i++;
+                    if(i>900){break;}
+                }   
             }
         }
         closedir (dir);
@@ -114,14 +122,19 @@ void createHistos(const char* physics_process)
     t1->SetBranchAddress("lepton2_py", &lepton2_py);
     t1->SetBranchAddress("lepton2_pz", &lepton2_pz);
     t1->SetBranchAddress("lepton2_E" , &lepton2_E );
-    t1->SetBranchAddress("neutrino1_px", &neutrino1_px);
-    t1->SetBranchAddress("neutrino1_py", &neutrino1_py);
-    t1->SetBranchAddress("neutrino1_pz", &neutrino1_pz);
-    t1->SetBranchAddress("neutrino1_E" , &neutrino1_E );
-    t1->SetBranchAddress("neutrino2_px", &neutrino2_px);
-    t1->SetBranchAddress("neutrino2_py", &neutrino2_py);
-    t1->SetBranchAddress("neutrino2_pz", &neutrino2_pz);
-    t1->SetBranchAddress("neutrino2_E" , &neutrino2_E );
+
+    if(generatedInfo)
+    {
+        t1->SetBranchAddress("neutrino1_px", &neutrino1_px);
+        t1->SetBranchAddress("neutrino1_py", &neutrino1_py);
+        t1->SetBranchAddress("neutrino1_pz", &neutrino1_pz);
+        t1->SetBranchAddress("neutrino1_E" , &neutrino1_E );
+        t1->SetBranchAddress("neutrino2_px", &neutrino2_px);
+        t1->SetBranchAddress("neutrino2_py", &neutrino2_py);
+        t1->SetBranchAddress("neutrino2_pz", &neutrino2_pz);
+        t1->SetBranchAddress("neutrino2_E" , &neutrino2_E );
+    }
+
     t1->SetBranchAddress("neutrino1_px_sol", &neutrino1_px_sol);
     t1->SetBranchAddress("neutrino1_py_sol", &neutrino1_py_sol);
     t1->SetBranchAddress("neutrino1_pz_sol", &neutrino1_pz_sol);
@@ -135,11 +148,12 @@ void createHistos(const char* physics_process)
     allEntries = t1->GetEntries();
     Long64_t entry;
 
-    TH1D* mWWs_true_hist = new TH1D("mWWs_true_hist", "", 100, 0., 0.);
-    TH1D* mWWs_sol_hist  = new TH1D("mWWs_sol_hist", "", 100, 0., 0.);
-    TH1D* mWs_sol_hist        = new TH1D("mWs_sol_hist", "", 80, 0., 80.);
-    TH1D* mJJ_hist             = new TH1D("mJJ_hist", "", 100, 0., 0.);
+    TH1D* mWWs_true_hist;
+    if(generatedInfo) {mWWs_true_hist = new TH1D("mWWs_true_hist", "", 100, 0., 0.);}
+    TH1D* mHH_hist = new TH1D("mHH_hist", "", 500, 0., 0.);
+    TH1D* mJJ_hist             = new TH1D("mJJ_hist", "", 1000, 0., 0.);
     TH3D* mWWs_p1x_p1y_hist      = new TH3D("mWWs_p1x_p1y_hist", "", 500, -250., 250.,  500, -250., 250., 400, 0., 400.);
+    TH2D* mWWs_mWs_hist = new TH2D("mWWs_mWs_hist", "", 400, 0., 400., 80, 0., 80.);
 
     TLorentzVector jet1, jet2, lepton1, lepton2, neutrino1_true , neutrino2_true, neutrino1_sol, neutrino2_sol;
     /* Event Loop */
@@ -151,32 +165,47 @@ void createHistos(const char* physics_process)
         jet2.SetPxPyPzE(jet2_px, jet2_py, jet2_pz, Energy(jet2_px, jet2_py, jet2_pz, MASSBQUARK));
         lepton1.SetPxPyPzE(lepton1_px, lepton1_py, lepton1_pz, Energy(lepton1_px, lepton1_py, lepton1_pz, 0.0));
         lepton2.SetPxPyPzE(lepton2_px, lepton2_py, lepton2_pz, Energy(lepton2_px, lepton2_py, lepton2_pz, 0.0));
-        neutrino1_true.SetPxPyPzE(neutrino1_px, neutrino1_py, neutrino1_pz, Energy(neutrino1_px, neutrino1_py, neutrino1_pz, 0.0));
-        neutrino2_true.SetPxPyPzE(neutrino2_px, neutrino2_py, neutrino2_pz, Energy(neutrino2_px, neutrino2_py, neutrino2_pz, 0.0));
+
+        if(generatedInfo)
+        {
+            neutrino1_true.SetPxPyPzE(neutrino1_px, neutrino1_py, neutrino1_pz, Energy(neutrino1_px, neutrino1_py, neutrino1_pz, 0.0));
+            neutrino2_true.SetPxPyPzE(neutrino2_px, neutrino2_py, neutrino2_pz, Energy(neutrino2_px, neutrino2_py, neutrino2_pz, 0.0));
+        }
+
         neutrino1_sol.SetPxPyPzE(neutrino1_px_sol, neutrino1_py_sol, neutrino1_pz_sol, Energy(neutrino1_px_sol, neutrino1_py_sol, neutrino1_pz_sol, 0.0));
         neutrino2_sol.SetPxPyPzE(neutrino2_px_sol, neutrino2_py_sol, neutrino2_pz_sol, Energy(neutrino2_px_sol, neutrino2_py_sol, neutrino2_pz_sol, 0.0));
 
-        Double_t mWWs_mass_true = (lepton1 + lepton2 + neutrino1_true + neutrino2_true).M();
+        Double_t mWWs_mass_true;
+        if(generatedInfo)
+        {
+            mWWs_mass_true = (lepton1 + lepton2 + neutrino1_true + neutrino2_true).M();
+            mWWs_true_hist->Fill(mWWs_mass_true);
+        }
         Double_t mWWs_mass_sol = (lepton1 + lepton2 + neutrino1_sol + neutrino2_sol).M();
         Double_t mJJ = (jet1 + jet2).M();
-        mWWs_true_hist->Fill(mWWs_mass_true);
-        mWWs_sol_hist->Fill(mWWs_mass_sol);
+        Double_t mHH = (jet1 + jet2 + lepton1 + lepton2 + neutrino1_sol + neutrino2_sol).M();
+        
+        mWWs_mWs_hist->Fill(mWWs_mass_sol, WStarmass_sol);
         mWWs_p1x_p1y_hist->Fill(neutrino1_sol.Px(), neutrino1_sol.Py(), mWWs_mass_sol);
-        mWs_sol_hist->Fill(WStarmass_sol);
+        mHH_hist->Fill(mHH);
         mJJ_hist->Fill(mJJ);
 
     }/* Event Loop */
 
     char buffer1[20];
-    Int_t true_bin_width = mWWs_true_hist->GetBinWidth(1);
-    sprintf(buffer1, "Events/%dGeV", true_bin_width);
+    Int_t true_bin_width;
+    if(generatedInfo)
+    {
+        true_bin_width = mWWs_true_hist->GetBinWidth(1);
+        sprintf(buffer1, "Events/%dGeV", true_bin_width);
+        mWWs_true_hist->GetXaxis()->SetTitle("M(ll#nu#nu)");
+        mWWs_true_hist->GetYaxis()->SetTitle(buffer1);
+    }
 
     char buffer2[20];
+    TH1D* mWWs_sol_hist = mWWs_mWs_hist->ProjectionX();
     Int_t sol_bin_width = mWWs_sol_hist->GetBinWidth(1);
     sprintf(buffer2, "Events/%dGeV", sol_bin_width);
-
-    mWWs_true_hist->GetXaxis()->SetTitle("M(ll#nu#nu)");
-    mWWs_true_hist->GetYaxis()->SetTitle(buffer1);
     mWWs_sol_hist->GetXaxis()->SetTitle("M(ll#nu#nu)");
     mWWs_sol_hist->GetYaxis()->SetTitle(buffer2);
 
@@ -192,6 +221,7 @@ void createHistos(const char* physics_process)
     TH1* p1y_mWWs_hist = mWWs_p1x_p1y_hist->Project3D("yz");
     TH1* p1x_mWWs_hist  = mWWs_p1x_p1y_hist->Project3D("xz");
     
+    TH1D* mWs_sol_hist = mWWs_mWs_hist->ProjectionY();
     mWs_sol_hist->GetXaxis()->SetTitle("M(W^{*})");
 
     mJJ_hist->GetXaxis()->SetTitle("M(jj)");
@@ -206,7 +236,7 @@ void createHistos(const char* physics_process)
     sprintf(eos_path_hist, "/eos/user/a/alexandg/public/EOS.diHiggs/rootFiles/%s/histos/histos_%s.root", physics_process, physics_process);
 
     TFile* f_out = new TFile(eos_path_hist, "recreate");
-    mWWs_true_hist->Write();
+    if(generatedInfo) {mWWs_true_hist->Write();}
     mWWs_sol_hist->Write();
     mWWs_p1x_p1y_hist->Write();
     p1x_hist->Write();
@@ -217,6 +247,8 @@ void createHistos(const char* physics_process)
     p1x_mWWs_hist->Write();
     mWs_sol_hist->Write();
     mJJ_hist->Write();
+    mHH_hist->Write();
+    mWWs_mWs_hist->Write();
 
     gROOT->ProcessLine(".q");
 }

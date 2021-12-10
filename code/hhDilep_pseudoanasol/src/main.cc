@@ -30,6 +30,7 @@ const bool input_Delphes = !input_ToyMC;
 LHAPDF::PDF* pdf = LHAPDF::mkPDF("CT10", 0);
 /* ***************************************************** */
 
+const bool generatedInfo = !false;
 const bool printInfo = false;
 const bool randomSolution = false;
 const bool printLoopInfo = false;
@@ -375,12 +376,15 @@ int main() {
     t1->SetBranchAddress("lepton2_px", &lepton2_px);
     t1->SetBranchAddress("lepton2_py", &lepton2_py);
     t1->SetBranchAddress("lepton2_pz", &lepton2_pz);
-    t1->SetBranchAddress("neutrino1_px", &neutrino1_px);
-    t1->SetBranchAddress("neutrino1_py", &neutrino1_py);
-    t1->SetBranchAddress("neutrino1_pz", &neutrino1_pz);
-    t1->SetBranchAddress("neutrino2_py", &neutrino2_py);
-    t1->SetBranchAddress("neutrino2_px", &neutrino2_px);
-    t1->SetBranchAddress("neutrino2_pz", &neutrino2_pz);
+    if(generatedInfo)
+    {
+        t1->SetBranchAddress("neutrino1_px", &neutrino1_px);
+        t1->SetBranchAddress("neutrino1_py", &neutrino1_py);
+        t1->SetBranchAddress("neutrino1_pz", &neutrino1_pz);
+        t1->SetBranchAddress("neutrino2_py", &neutrino2_py);
+        t1->SetBranchAddress("neutrino2_px", &neutrino2_px);
+        t1->SetBranchAddress("neutrino2_pz", &neutrino2_pz);
+    }
 
     Long64_t allEntries = t1->GetEntries();
 
@@ -430,14 +434,19 @@ int main() {
         t2->Branch("lepton2_py", &lepton2_py0, "lepton2_py/D");
         t2->Branch("lepton2_pz", &lepton2_pz0, "lepton2_pz/D");
         t2->Branch("lepton2_E" , &lepton2_E0 , "lepton2_E/D" );
-        t2->Branch("neutrino1_px", &neutrino1_px0, "neutrino1_px/D");
-        t2->Branch("neutrino1_py", &neutrino1_py0, "neutrino1_py/D");
-        t2->Branch("neutrino1_pz", &neutrino1_pz0, "neutrino1_pz/D");
-        t2->Branch("neutrino1_E" , &neutrino1_E0 , "neutrino1_E/D" );
-        t2->Branch("neutrino2_px", &neutrino2_px0, "neutrino2_px/D");
-        t2->Branch("neutrino2_py", &neutrino2_py0, "neutrino2_py/D");
-        t2->Branch("neutrino2_pz", &neutrino2_pz0, "neutrino2_pz/D");
-        t2->Branch("neutrino2_E" , &neutrino2_E0 , "neutrino2_E/D" );        
+
+        if(generatedInfo)
+        {
+            t2->Branch("neutrino1_px", &neutrino1_px0, "neutrino1_px/D");
+            t2->Branch("neutrino1_py", &neutrino1_py0, "neutrino1_py/D");
+            t2->Branch("neutrino1_pz", &neutrino1_pz0, "neutrino1_pz/D");
+            t2->Branch("neutrino1_E" , &neutrino1_E0 , "neutrino1_E/D" );
+            t2->Branch("neutrino2_px", &neutrino2_px0, "neutrino2_px/D");
+            t2->Branch("neutrino2_py", &neutrino2_py0, "neutrino2_py/D");
+            t2->Branch("neutrino2_pz", &neutrino2_pz0, "neutrino2_pz/D");
+            t2->Branch("neutrino2_E" , &neutrino2_E0 , "neutrino2_E/D" );
+        }
+
         t2->Branch("neutrino1_px_sol", &neutrino1_px_sol, "neutrino1_px_sol/D");
         t2->Branch("neutrino1_py_sol", &neutrino1_py_sol, "neutrino1_py_sol/D");
         t2->Branch("neutrino1_pz_sol", &neutrino1_pz_sol, "neutrino1_pz_sol/D");
@@ -486,18 +495,22 @@ int main() {
         l2[3] = lepton2_pz;
         l2[0] = Energy(lepton2_px, lepton2_py, lepton2_pz, 0.);
 
-        n1[1] = neutrino1_px;
-        n1[2] = neutrino1_py;
-        n1[3] = neutrino1_pz;
-        n1[0] = Energy(neutrino1_px, neutrino1_py, neutrino1_pz, 0.);
+        if(generatedInfo)
+        {
+            n1[1] = neutrino1_px;
+            n1[2] = neutrino1_py;
+            n1[3] = neutrino1_pz;
+            n1[0] = Energy(neutrino1_px, neutrino1_py, neutrino1_pz, 0.);
 
-        n2[1] = neutrino2_px;
-        n2[2] = neutrino2_py;
-        n2[3] = neutrino2_pz;
-        n2[0] = Energy(neutrino2_px, neutrino2_py, neutrino2_pz, 0.);
+            n2[1] = neutrino2_px;
+            n2[2] = neutrino2_py;
+            n2[3] = neutrino2_pz;
+            n2[0] = Energy(neutrino2_px, neutrino2_py, neutrino2_pz, 0.);
+        }
 
         double Wmass     = 80.; // GeV
-        double WStarmass = 45.; // GeV
+        // 40 GeV is where the peak is for the W* mass
+        double WStarmass = 40.; // GeV
 
         double x1 = -1, x2 = -1;
         double pdfWeight = -1;
@@ -528,7 +541,7 @@ int main() {
         // double result_WStarmass = -1;
 
         double WStarmass0 = 0.;
-        double WStarmassMAX = 80.;
+        double WStarmassMAX = 60.;
         double WStarmassSTEP = 1.;
         double momentumSTEP = 1.;
         double momentumMAX = 250.;
@@ -543,6 +556,8 @@ int main() {
             {
                 for(n1y = -momentumMAX; n1y < momentumMAX+1; n1y++)
                 {
+		    if((n1x!=0) && (n1y!=0))
+                    {	
                     if(printLoopInfo) {cout << "M(W*) = " << WStarmass << "\tp1x = " << n1x << "\tp1y = " << n1y << endl;}
                     double n2x = MET_x - n1x;
                     double n2y = MET_y - n1y;
@@ -581,12 +596,12 @@ int main() {
                         }
 
                     }
-
+		}//if n1x!=0 && n1y!=0 Loop
                 } // Momentum Y Loop                
             } // Momentum X Loop
         } // W* Mass Loop
 
-        if(event_isTotallySolvable)
+        if(event_isTotallySolvable && result_WStarmass <= 46.0)
         {
             solvable_events++ ;
             // cout << "pdfWeight: " << pdfWeight << endl;
@@ -613,8 +628,12 @@ int main() {
             lepton2_px0 = lepton2_p4.Px(), lepton2_py0 = lepton2_p4.Py(), lepton2_pz0 = lepton2_p4.Pz(), lepton2_E0 = lepton2_p4.E();
             //lepton2_charge0 = ;
 
-            neutrino1_px0 = neutrino1_px, neutrino1_py0 = neutrino1_py, neutrino1_pz0 = neutrino1_pz, neutrino1_E0 = Energy(neutrino1_px, neutrino1_py, neutrino1_pz, 0.);
-            neutrino2_px0 = neutrino2_px, neutrino2_py0 = neutrino2_py, neutrino2_pz0 = neutrino2_pz, neutrino2_E0 = Energy(neutrino2_px, neutrino2_py, neutrino2_pz, 0.);
+            if(generatedInfo)
+            {
+                neutrino1_px0 = neutrino1_px, neutrino1_py0 = neutrino1_py, neutrino1_pz0 = neutrino1_pz, neutrino1_E0 = Energy(neutrino1_px, neutrino1_py, neutrino1_pz, 0.);
+                neutrino2_px0 = neutrino2_px, neutrino2_py0 = neutrino2_py, neutrino2_pz0 = neutrino2_pz, neutrino2_E0 = Energy(neutrino2_px, neutrino2_py, neutrino2_pz, 0.);
+            }
+            
             neutrino1_px_sol = neutrino1_p4.Px(), neutrino1_py_sol = neutrino1_p4.Py(), neutrino1_pz_sol = neutrino1_p4.Pz(), neutrino1_E_sol = neutrino1_p4.E();
             neutrino2_px_sol = neutrino2_p4.Px(), neutrino2_py_sol = neutrino2_p4.Py(), neutrino2_pz_sol = neutrino2_p4.Pz(), neutrino2_E_sol = neutrino2_p4.E();
 

@@ -7,8 +7,8 @@ cp -r ${DIHIGGS_PATH}/. ${_CONDOR_SCRATCH_DIR}
 cd ${_CONDOR_SCRATCH_DIR}
 echo "PWD = ${PWD}"
 
-
-cp INPUTFILE ./code/selection/selection_input.root
+rm -f ./code/selection/selection_input.root
+xrdcp INPUTFILE ./code/selection/selection_input.root
 
 echo "..Copying INPUTFILE -> ./code/selection/selection_input.root"
 
@@ -31,7 +31,7 @@ gmake main.x
 ./main.x
 
 
-cp ./data/pdf_output.root OUTPUTFILE
+xrdcp ./data/pdf_output.root OUTPUTFILE
 
 
 echo "..Copying ./data/pdf_output.root -> OUTPUTFILE"

@@ -11,14 +11,15 @@ Output = /afs/cern.ch/user/a/alexandg/diHiggs/cfgFiles/output/PHYSICSPROCESS/INP
 Error = /afs/cern.ch/user/a/alexandg/diHiggs/cfgFiles/error/PHYSICSPROCESS/INPUTFILE.err
 
 Log = /afs/cern.ch/user/a/alexandg/diHiggs/cfgFiles/log/PHYSICSPROCESS/INPUTFILE.log
-
+ 
 #notify_user = georgios.alexandris@cern.ch
 
 #should_transfer_files = YES
 
 #when_to_transfer_output = ON_EXIT
 
-#x509userproxy = $ENV(X509_USER_PROXY)
+
+x509userproxy = $ENV(X509_USER_PROXY)
 
 # 20 minutes
 #+JobFlavour = "espresso"    

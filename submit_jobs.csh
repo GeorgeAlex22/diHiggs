@@ -11,6 +11,9 @@ setenv SUBMIT_DIR ${STARTING_DIR}/cfgFiles/submit
 setenv SUB_INPUT_LIST `ls -l ${SUBMIT_DIR}/${PHYSICS_PROCESS} | awk '{print $9}' | grep .sub`
 # | awk 'FNR<=3'`
 
+setenv X509_USER_PROXY /afs/cern.ch/user/a/alexandg/x509up_u17268
+voms-proxy-init
+
 @ index=0
 foreach INPUT (${SUB_INPUT_LIST})
     # echo "SUBMITTING ${INPUT} in my imagination..."

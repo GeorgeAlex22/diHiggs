@@ -82,7 +82,7 @@ bool sortElectrons(const Electron& e1, const Electron& e2)                      
 bool sortMuons(const Muon&     m1, const Muon&     m2)                                { return m1.PT > m2.PT;}
 
 
-bool generatedInfo  = false;
+bool generatedInfo  = !false;
 bool printInfo      = !true;
 bool debug          = !true;
 bool signal_flag    = true;
@@ -487,8 +487,8 @@ void Selection()
   int nneutrinos = genNeutrinos.size();
 
   //  if (generatedInfo && (ngeneratedBquarks>=2) && (ngeneratedLeptons ==2) && (nneutrinos == 2) && Mbb_gen > 95 && Mbb_gen < 140 && Mll_gen < 65 && pow(genMETx*genMETx + genMETy*genMETy, 0.5) > 30)
-  // if (generatedInfo && (ngeneratedBquarks>=2) && (ngeneratedLeptons ==2) && Mbb_gen > 95 && Mbb_gen < 140 && Mll_gen < 65 && pow(genMETx*genMETx + genMETy*genMETy, 0.5) > 30)
-  if (generatedInfo && (ngeneratedBquarks>=2) && (ngeneratedLeptons ==2) && pow(genMETx*genMETx + genMETy*genMETy, 0.5) > 30)
+  if (generatedInfo && (ngeneratedBquarks>=2) && (ngeneratedLeptons ==2) && Mbb_gen > 95 && Mbb_gen < 140 && Mll_gen < 65 && pow(genMETx*genMETx + genMETy*genMETy, 0.5) > 30)
+  // if (generatedInfo && (ngeneratedBquarks>=2) && (ngeneratedLeptons ==2) && Mbb_gen > 95 && Mbb_gen < 140 && pow(genMETx*genMETx + genMETy*genMETy, 0.5) > 30)
    {
       if (printInfo){ cout << endl; cout << "------------  event " << entry << " -------------- " << endl; cout << endl;}
 
@@ -498,54 +498,58 @@ void Selection()
       Int_t branchParticleEntries = branchParticle->GetEntriesFast();
       if(debug) {branchParticleEntries = 100;}// print only the first 20 particles of an event for debugging
 
-      for(i=0; i < branchParticleEntries; ++i)
+      if(printInfo)
       {
-         GenParticle *gen = (GenParticle*) branchParticle->At(i);
-         // if (printInfo)  cout<< " particle PID "  <<  gen->PID << " Status " << gen->Status << " Mass " <<   gen->Mass << endl;
+        for(i=0; i < branchParticleEntries; ++i)
+        {
+          GenParticle *gen = (GenParticle*) branchParticle->At(i);
+          // if (printInfo)  cout<< " particle PID "  <<  gen->PID << " Status " << gen->Status << " Mass " <<   gen->Mass << endl;
 
-         // ************************** / 
-         // Higgs from hard scattering /
-         // ************************** /  
+          // ************************** / 
+          // Higgs from hard scattering /
+          // ************************** /  
 
-         if (fabs(gen->PID)==25 && (gen->Status>=21 && gen->Status<=29)  ) 
-         { 
-           TLorentzVector myparticle; myparticle.SetPtEtaPhiM(gen->PT, gen->Eta, gen->Phi, gen->Mass); 
-           if (printInfo && (gen->PT>10) ) cout<< " Higgs "  <<  gen->PID << " " <<   myparticle.Px() <<  " " << myparticle.Py()  << " " << myparticle.Pz() << endl;
-         }
+          if (fabs(gen->PID)==25 && (gen->Status>=21 && gen->Status<=29)  ) 
+          { 
+            TLorentzVector myparticle; myparticle.SetPtEtaPhiM(gen->PT, gen->Eta, gen->Phi, gen->Mass); 
+            if (gen->PT>10) {cout<< " Higgs "  <<  gen->PID << " " <<   myparticle.Px() <<  " " << myparticle.Py()  << " " << myparticle.Pz() << endl;}
+          }
 
-         // **************************** / 
-         // bquarks from hard scattering /
-         // **************************** /  
+          // **************************** / 
+          // bquarks from hard scattering /
+          // **************************** /  
 
-         if (fabs(gen->PID)==5 && (gen->Status>=21 && gen->Status<=29)  ) 
-         { 
-           TLorentzVector myparticle; myparticle.SetPtEtaPhiM(gen->PT, gen->Eta, gen->Phi, gen->Mass); 
-           if (printInfo && (gen->PT>10) ) cout<< " bquark "  <<  gen->PID << " " <<   myparticle.Px() <<  " " << myparticle.Py()  << " " << myparticle.Pz() << endl;
-         }
-         
-         // ******************************************* /   
-         // lepton is 11,13,15 PDG and final (status=1) /
-         // ******************************************* /
+          if (fabs(gen->PID)==5 && (gen->Status>=21 && gen->Status<=29)  ) 
+          { 
+            TLorentzVector myparticle; myparticle.SetPtEtaPhiM(gen->PT, gen->Eta, gen->Phi, gen->Mass); 
+            if (gen->PT>10) {cout<< " bquark "  <<  gen->PID << " " <<   myparticle.Px() <<  " " << myparticle.Py()  << " " << myparticle.Pz() << endl;}
+          }
+          
+          // ******************************************* /   
+          // lepton is 11,13,15 PDG and final (status=1) /
+          // ******************************************* /
 
-         //if (((fabs(gen->PID)==11)||(fabs(gen->PID)==13)||(fabs(gen->PID)==15)) && (gen->Status==1) )
-         if (((fabs(gen->PID)==11)||(fabs(gen->PID)==13)) && (gen->Status==1) )
-         { 
-           TLorentzVector myparticle; myparticle.SetPtEtaPhiM(gen->PT, gen->Eta, gen->Phi, gen->Mass); 
-           if (printInfo && (gen->PT>10) ) cout<< " lepton "  <<  gen->PID << " " <<   myparticle.Px() <<  " " << myparticle.Py()  << " " << myparticle.Pz() << endl;
-         }
+          //if (((fabs(gen->PID)==11)||(fabs(gen->PID)==13)||(fabs(gen->PID)==15)) && (gen->Status==1) )
+          if (((fabs(gen->PID)==11)||(fabs(gen->PID)==13)) && (gen->Status==1) )
+          { 
+            TLorentzVector myparticle; myparticle.SetPtEtaPhiM(gen->PT, gen->Eta, gen->Phi, gen->Mass); 
+            if(gen->PT>10) {cout<< " lepton "  <<  gen->PID << " " <<   myparticle.Px() <<  " " << myparticle.Py()  << " " << myparticle.Pz() << endl;}
+          }
 
-         // ********************************************* /
-         // neutrino is 12,14,16 PDG and final (status=1) /
-         // ********************************************* /
+          // ********************************************* /
+          // neutrino is 12,14,16 PDG and final (status=1) /
+          // ********************************************* /
 
-         if (((fabs(gen->PID)==12)||(fabs(gen->PID)==14)||(fabs(gen->PID)==16))&& (gen->Status==1)  )
-         { 
-           TLorentzVector myparticle; myparticle.SetPtEtaPhiM(gen->PT, gen->Eta, gen->Phi, gen->Mass);
-           // genMETx += myparticle.Px(); genMETy += myparticle.Py();
-           if (printInfo) cout<< " neutrino "  <<  gen->PID << " " <<   myparticle.Px() <<  " " << myparticle.Py()  << " " << myparticle.Pz() << endl;
-         }
+          if (((fabs(gen->PID)==12)||(fabs(gen->PID)==14)||(fabs(gen->PID)==16))&& (gen->Status==1)  )
+          { 
+            TLorentzVector myparticle; myparticle.SetPtEtaPhiM(gen->PT, gen->Eta, gen->Phi, gen->Mass);
+            // genMETx += myparticle.Px(); genMETy += myparticle.Py();
+            cout<< " neutrino "  <<  gen->PID << " " <<   myparticle.Px() <<  " " << myparticle.Py()  << " " << myparticle.Pz() << endl;
+          }
+        }
+        cout << " genMET " << genMETx << " " << genMETy << endl;
+
       }
-      if (printInfo) cout << " genMET " << genMETx << " " << genMETy << endl;
 
       // //  sort generated leptons - get first 2
       // std::sort(genLeptons.begin(), genLeptons.end(), sortGenParticleOperator);
@@ -603,8 +607,8 @@ Double_t Mjj = (mostEnergeticJet.P4()+secEnergeticJet.P4()).M();
 Double_t Mll = (mostEnergeticLepton.P4()+secEnergeticLepton.P4()).M();
 
     // if (!(generatedInfo) && (njets >= 2) && (nleptons >=2) && (mostEnergeticJet.P4().Pt()>30) && (secEnergeticJet.P4().Pt()>30) && (mostEnergeticLepton.P4().Pt()>30)  && (secEnergeticLepton.P4().Pt()>30)&& missingEnergyX*missingEnergyX + missingEnergyY*missingEnergyY > 1)
-    // if (!(generatedInfo) && (njets >= 2) && (nleptons ==2) && Mjj > 95 && Mjj < 140 && Mll < 65 && pow(missingEnergyX*missingEnergyX + missingEnergyY*missingEnergyY, 0.5) > 30)
-    if (!(generatedInfo) && (njets >= 2) && (nleptons ==2) && pow(missingEnergyX*missingEnergyX + missingEnergyY*missingEnergyY, 0.5) > 30)
+    if (!(generatedInfo) && (njets >= 2) && (nleptons ==2) && Mjj > 95 && Mjj < 140 && Mll < 65 && pow(missingEnergyX*missingEnergyX + missingEnergyY*missingEnergyY, 0.5) > 30)
+    // if (!(generatedInfo) && (njets >= 2) && (nleptons ==2) && Mjj > 95 && Mjj < 140 && pow(missingEnergyX*missingEnergyX + missingEnergyY*missingEnergyY, 0.5) > 30)
     {
 
       if (printInfo){ cout << endl; cout << "------------  event " << entry << " -------------- " << endl; cout << endl;}
@@ -615,55 +619,57 @@ Double_t Mll = (mostEnergeticLepton.P4()+secEnergeticLepton.P4()).M();
       Int_t branchParticleEntries = branchParticle->GetEntriesFast();
       if(debug) {branchParticleEntries = 100;}// print only the first 20 particles of an event for debugging
 
-      for(i=0; i < branchParticleEntries; ++i)
+      if(printInfo)
       {
-         GenParticle *gen = (GenParticle*) branchParticle->At(i);
-         // if (printInfo)  cout<< " particle PID "  <<  gen->PID << " Status " << gen->Status << " Mass " <<   gen->Mass << endl;
+        for(i=0; i < branchParticleEntries; ++i)
+        {
+          GenParticle *gen = (GenParticle*) branchParticle->At(i);
+          // if (printInfo)  cout<< " particle PID "  <<  gen->PID << " Status " << gen->Status << " Mass " <<   gen->Mass << endl;
 
-         // ************************** / 
-         // Higgs from hard scattering /
-         // ************************** /  
+          // ************************** / 
+          // Higgs from hard scattering /
+          // ************************** /  
 
-         if (fabs(gen->PID)==25 && (gen->Status>=21 && gen->Status<=29)  ) 
-         { 
-           TLorentzVector myparticle; myparticle.SetPtEtaPhiM(gen->PT, gen->Eta, gen->Phi, gen->Mass); 
-           if (printInfo && (gen->PT>10) ) cout<< " Higgs "  <<  gen->PID << " " <<   myparticle.Pt() <<  " " << myparticle.Eta()  << " " << myparticle.Phi() << endl;
-         }
+          if (fabs(gen->PID)==25 && (gen->Status>=21 && gen->Status<=29)  ) 
+          { 
+            TLorentzVector myparticle; myparticle.SetPtEtaPhiM(gen->PT, gen->Eta, gen->Phi, gen->Mass); 
+            if(gen->PT>10) cout<< " Higgs "  <<  gen->PID << " " <<   myparticle.Pt() <<  " " << myparticle.Eta()  << " " << myparticle.Phi() << endl;
+          }
 
-         // **************************** / 
-         // bquarks from hard scattering /
-         // **************************** /  
+          // **************************** / 
+          // bquarks from hard scattering /
+          // **************************** /  
 
-         if (fabs(gen->PID)==5 && (gen->Status>=21 && gen->Status<=29)  ) 
-         { 
-           TLorentzVector myparticle; myparticle.SetPtEtaPhiM(gen->PT, gen->Eta, gen->Phi, gen->Mass); 
-           if (printInfo && (gen->PT>10) ) cout<< " bquark "  <<  gen->PID << " " <<   myparticle.Pt() <<  " " << myparticle.Eta()  << " " << myparticle.Phi() << endl;
-         }
-         
-         // ******************************************* /   
-         // lepton is 11,13,15 PDG and final (status=1) /
-         // ******************************************* /
+          if (fabs(gen->PID)==5 && (gen->Status>=21 && gen->Status<=29)  ) 
+          { 
+            TLorentzVector myparticle; myparticle.SetPtEtaPhiM(gen->PT, gen->Eta, gen->Phi, gen->Mass); 
+            if(gen->PT>10) cout<< " bquark "  <<  gen->PID << " " <<   myparticle.Pt() <<  " " << myparticle.Eta()  << " " << myparticle.Phi() << endl;
+          }
+          
+          // ******************************************* /   
+          // lepton is 11,13,15 PDG and final (status=1) /
+          // ******************************************* /
 
-         //if (((fabs(gen->PID)==11)||(fabs(gen->PID)==13)||(fabs(gen->PID)==15)) && (gen->Status==1) )
-         if (((fabs(gen->PID)==11)||(fabs(gen->PID)==13)) && (gen->Status==1) )
-         { 
-           TLorentzVector myparticle; myparticle.SetPtEtaPhiM(gen->PT, gen->Eta, gen->Phi, gen->Mass); 
-           if (printInfo && (gen->PT>10) ) cout<< " lepton "  <<  gen->PID << " " <<   myparticle.Pt() <<  " " << myparticle.Eta()  << " " << myparticle.Phi() << endl;
-         }
+          //if (((fabs(gen->PID)==11)||(fabs(gen->PID)==13)||(fabs(gen->PID)==15)) && (gen->Status==1) )
+          if (((fabs(gen->PID)==11)||(fabs(gen->PID)==13)) && (gen->Status==1) )
+          { 
+            TLorentzVector myparticle; myparticle.SetPtEtaPhiM(gen->PT, gen->Eta, gen->Phi, gen->Mass); 
+            if(gen->PT>10) cout<< " lepton "  <<  gen->PID << " " <<   myparticle.Pt() <<  " " << myparticle.Eta()  << " " << myparticle.Phi() << endl;
+          }
 
-         // ********************************************* /
-         // neutrino is 12,14,16 PDG and final (status=1) /
-         // ********************************************* /
+          // ********************************************* /
+          // neutrino is 12,14,16 PDG and final (status=1) /
+          // ********************************************* /
 
-         if (((fabs(gen->PID)==12)||(fabs(gen->PID)==14)||(fabs(gen->PID)==16) ) && (gen->Status==1)  )
-         { 
-           TLorentzVector myparticle; myparticle.SetPtEtaPhiM(gen->PT, gen->Eta, gen->Phi, gen->Mass);
-           // genMETx += myparticle.Px(); genMETy += myparticle.Py();
-           if (printInfo) cout<< " neutrino "  <<  gen->PID << " " <<   myparticle.Px() <<  " " << myparticle.Py()  << " " << myparticle.Pz() << endl;
-         }
+          if (((fabs(gen->PID)==12)||(fabs(gen->PID)==14)||(fabs(gen->PID)==16) ) && (gen->Status==1)  )
+          { 
+            TLorentzVector myparticle; myparticle.SetPtEtaPhiM(gen->PT, gen->Eta, gen->Phi, gen->Mass);
+            // genMETx += myparticle.Px(); genMETy += myparticle.Py();
+            cout<< " neutrino "  <<  gen->PID << " " <<   myparticle.Px() <<  " " << myparticle.Py()  << " " << myparticle.Pz() << endl;
+          }
+        }
+        cout << " genMET " << genMETx << " " << genMETy << endl;
       }
-      if (printInfo) cout << " genMET " << genMETx << " " << genMETy << endl;
-
          // now fill in vars 
          MET_x      = missingEnergyX;
          MET_y      = missingEnergyY;
@@ -727,9 +733,6 @@ Double_t Mll = (mostEnergeticLepton.P4()+secEnergeticLepton.P4()).M();
 
      } 
 
-   
-
- 
  
 
   } /* event loop */
